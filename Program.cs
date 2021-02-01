@@ -8,18 +8,20 @@ namespace async_await
     {
         static async Task<Int32> Main(string[] args)
         {
-            // Creating three task
-            Random rng = new Random();
-            Random rngTwo = new Random();
-            Int32 waitTime = rng.Next(1000, 5000);
-            int waitTimeTwo = rngTwo.Next(1000, 5000);
-            // Creating a task that will wait
-            await Task.Delay(waitTime);
-            await Task.Delay(waitTimeTwo);
-            // The program will end after the preceding task terminates
-            Console.WriteLine("The task1 has waited " + waitTime);
-            Console.WriteLine("The task2 has waited " + waitTimeTwo);
+            var taskOne = NewMethod();
+            var taskTwo = NewMethod();
+
+            await Task.WhenAll(taskOne, taskTwo);
+            Console.WriteLine("Finished");
             return 0;
+        }
+
+        private static async Task NewMethod()
+        {
+            Random rng = new Random();
+            Int32 waitTime = rng.Next(1000, 5000);
+            await Task.Delay(waitTime);
+            Console.WriteLine("The task has waited " + waitTime);
         }
     }
 }
